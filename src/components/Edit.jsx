@@ -1,64 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import  { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { database } from '../firebaseConfig';
-import {
-    updateDoc,
-    collection,
-    doc,
-    onSnapshot
-    
-} from 'firebase/firestore';
+import { database } from '../firebaseConfig'
+import { doc, updateDoc } from 'firebase/firestore';
+import { Link, useLocation } from 'react-router-dom';
 
 function Edit() {
-    const params=useParams()
-    const [editdoc, setEditDoc] = useState('');
-    const [docTitle,setDocTitle]=useState()
-    // console.log(params);
-    const getQuilData=(value)=>{
-        setEditDoc(value)
-   
-    }
-      // console.log(editdoc);
-      
-      const collectionRef = collection(database, 'docsData')
-      const updateDocument=async ()=> {
-        try {
-          const documentRef = doc(collectionRef, params.id);
-          await updateDoc(documentRef, { 
-            editdoc:editdoc });
-       
-        } catch (error) {
-          console.error('Error saving document:', error);
-          alert('Cannot Save'); 
-        }
-      }
-    
+  const location = useLocation()
+  const data = location.state
+  const [disdoc, setDisdoc] = useState(data.description)
 
-      const getData = () => {
-        const document = doc(collectionRef, params.id)
-        onSnapshot(document, (docs) => {
-            console.log(docs.data().editdocc)
-        })
-    }
-    useEffect(()=>{
-      getData()
-    },[])
-    
-      
- useEffect(()=>{
-    updateDocument()
-    },[editdoc])
+  const editDescription = async () => {
+    const document = doc(database, 'docsData', data.id)
+    updateDoc(document, {
+      description: disdoc
+    })
+  }
+
+  const handleChange = (e) => {
+    setDisdoc(e)
+  }
+
+  useEffect(() => {
+    editDescription()
+  }, [disdoc])
+
   return (
     <>
-    <div  style={{ height: '100vh' }} className='container'>
+      <div  style={{ height: '100vh' }} className='container'>
         <div className='mt-3'>
             <Link to={'/'} style={{textDecoration:'none'}} className='btn btn-warning'><i className='fa-solid fa-arrow-backward'></i> Go Back</Link>
         </div>
-    <h1>{docTitle}</h1>
-    <ReactQuill className='mt-4' value={editdoc} onChange={(e)=>getQuilData(e)} theme="snow" />
-    </div>
+        <h2 className='mt-5 fw-bolder'>{data.title}</h2>
+          <ReactQuill className='mt-2 '  placeholder='Type here....' theme="snow" value={disdoc} onChange={(e) => handleChange(e)} />
+      </div>
+
     </>
   )
 }

@@ -64,9 +64,12 @@ function Docs() {
         getData(); 
     }
 
-    const getId = (id) => {
-        navigate(`/edit/${id}`)
+    const getedit = (data) => {
+      navigate('/edit',{state:data})
+
     }
+
+
     return (
         <>
         <Header/>
@@ -86,9 +89,9 @@ function Docs() {
                             <Card className='shadow' style={{ width: '18rem' }}>
                                 <Card.Body>
                                     <Card.Title style={{color:'#474747'}}  className='fw-bolder fs-3 py-1'>{data.title}</Card.Title>
-                                    <Card.Text style={{fontFamily:"Poppins , sans-serif"}}>{data.editdoc ? data.editdoc.replace(/<[^>]+>/g, '') : ''}</Card.Text>
+                                    <Card.Text style={{fontFamily:"Poppins , sans-serif"}}>{data.description ? data.description.replace(/<[^>]+>/g, '') : ''}</Card.Text>
                                     <div className='d-flex justify-content-end'>
-                                        <button onClick={() => getId(data.id)} className='btn text-info'><i className="fa-solid fa-pen-to-square py-1"></i></button>
+                                        <button onClick={() => getedit(data)} className='btn text-info'><i className="fa-solid fa-pen-to-square py-1"></i></button>
                                         <button onClick={() => handleDelete(data.id)} className='btn text-danger'><i className="fa-solid fa-trash py-1"></i></button>
                                     </div>
                                 </Card.Body>

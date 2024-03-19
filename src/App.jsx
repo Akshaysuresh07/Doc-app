@@ -12,8 +12,8 @@ function App({app,database}) {
     <>
   
      <Routes>
-     <Route path="/" element={<Docs database={database} />} />
-     <Route path="/edit/:id" element={<Edit database={database}/>} />
+     <Route path="/" element={<Docs/>}  />
+     <Route path="/edit" element={<Edit />} />
    </Routes>
     </>
   )
