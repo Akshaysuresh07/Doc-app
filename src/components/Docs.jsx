@@ -86,7 +86,7 @@ function Docs() {
 
                     {docData?.length > 0 ? docData.map((data) => (
                         <div className='col-lg-4 mb-4 ms-3' key={data.id} style={{ width: '300px', cursor: 'pointer' }} > 
-                            <Card className='shadow' style={{ width: '18rem' }}>
+                            <Card className='shadow' style={{ width: '18rem',background:'#DDDDDD' }}>
                                 <Card.Body>
                                     <Card.Title style={{color:'#474747'}}  className='fw-bolder fs-3 py-1'>{data.title}</Card.Title>
                                     <Card.Text style={{fontFamily:"Poppins , sans-serif"}}>{data.description ? data.description.replace(/<[^>]+>/g, '') : ''}</Card.Text>
